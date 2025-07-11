@@ -1,146 +1,203 @@
-
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Katalog UMKM Sarirejo - Semarang Timur</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Katalog UMKM Sarirejo - Semarang Timur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
-    <header>
-        <div class="container">
-            <h1><i class="fas fa-store"></i> Katalog UMKM Sarirejo</h1>
-            <p>Kecamatan Semarang Timur, Kota Semarang</p>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="header-left">
+          <h1><i class="fas fa-store"></i> Katalog UMKM Sarirejo</h1>
+          <p>UNDANG-UNDANG NOMOR 8 TAHUN 1999 TENTANG PERLINDUNGAN KONSUMEN MELALUI UNDANG UNDANG INI , NEGARA
+            MENEGASKAN
+            BAHWA SETIAP ORANG BERHAK MRNDAPATKAN KENYAMAN,KEAMANAN,DAN KESELAMATAN DALAM MENGONSUMSI BARANG DAN/ATAU
+            JASA
+          </p>
         </div>
-    </header>
-
-    <nav class="main-nav">
-        <div class="container">
-            <button class="nav-btn active" data-view="catalog">
-                <i class="fas fa-th-large"></i> Katalog
-            </button>
-            <button class="nav-btn" data-view="map">
-                <i class="fas fa-map"></i> Peta
-            </button>
+        <div class="header-right">
+          <img
+            src="https://w7.pngwing.com/pngs/680/88/png-transparent-semarang-logo-symbol-cdr-symbol-miscellaneous-cdr-emblem.png"
+            alt="Logo Pemerintah Kota Semarang" class="government-logo">
         </div>
-    </nav>
+      </div>
+    </div>
+  </header>
 
-    <main class="container">
-        <!-- Filter Section -->
-        <div class="filter-section">
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Cari UMKM...">
-            </div>
-            <select id="categoryFilter">
-                <option value="">Semua Kategori</option>
-                <option value="kuliner">Kuliner</option>
-                <option value="fashion">Fashion</option>
-                <option value="kerajinan">Kerajinan</option>
-                <option value="jasa">Jasa</option>
-                <option value="pertanian">Pertanian</option>
-                <option value="teknologi">Teknologi</option>
-            </select>
-            <select id="rtFilter">
-                <option value="">Semua RT</option>
-                <option value="01">RT 01</option>
-                <option value="02">RT 02</option>
-                <option value="03">RT 03</option>
-                <option value="04">RT 04</option>
-                <option value="05">RT 05</option>
-            </select>
+  <div class="scroll-notification">
+    <div class="container">
+      <p>🏪 Selamat Datang di Katalog UMKM Sarirejo - Dukung Ekonomi Lokal! 🌟 Temukan UMKM Terbaik di Sekitar Anda 🚀 Nikmati Produk dan Layanan Berkualitas dari Warga Sarirejo 💝</p>
+    </div>
+  </div>
+
+  <section class="welcome-section">
+    <div class="container">
+      <div class="welcome-content">
+        <h2>🙏 Selamat Datang di Portal UMKM Sarirejo 🙏</h2>
+        <p>UMKM di Kelurahan Sarirejo merupakan bagian dari sektor ekonomi kreatif yang tumbuh dengan mengandalkan potensi lokal dan kearifan budaya. Usaha seperti kuliner tradisional dan kerajinan berbahan alami mencerminkan kreativitas masyarakat dalam menghasilkan produk bernilai seni dan ramah lingkungan. Inovasi yang digabungkan dengan prinsip keberlanjutan menjadikan UMKM Sarirejo memiliki daya saing serta kontribusi nyata terhadap ekonomi berbasis budaya lokal.</p>
+        <div class="welcome-stats">
+          <div class="welcome-stat">
+            <i class="fas fa-handshake"></i>
+            <span>Mendukung Ekonomi Lokal</span>
+          </div>
+          <div class="welcome-stat">
+            <i class="fas fa-star"></i>
+            <span>Produk Berkualitas</span>
+          </div>
+          <div class="welcome-stat">
+            <i class="fas fa-users"></i>
+            <span>Komunitas UMKM</span>
+          </div>
         </div>
+      </div>
+    </div>
+  </section>
 
-        <!-- Catalog View -->
-        <div id="catalogView" class="view active">
-            <div class="stats-cards">
-                <div class="stat-card">
-                    <i class="fas fa-store"></i>
-                    <div>
-                        <h3 id="totalUMKM">0</h3>
-                        <p>Total UMKM</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-utensils"></i>
-                    <div>
-                        <h3 id="kulinerCount">0</h3>
-                        <p>Kuliner</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-tshirt"></i>
-                    <div>
-                        <h3 id="fashionCount">0</h3>
-                        <p>Fashion</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-tools"></i>
-                    <div>
-                        <h3 id="jasaCount">0</h3>
-                        <p>Jasa</p>
-                    </div>
-                </div>
-            </div>
+  <nav class="main-nav">
+    <div class="container">
+      <button class="nav-btn active" data-view="catalog">
+        <i class="fas fa-th-large"></i> Katalog
+      </button>
+      <button class="nav-btn" data-view="map">
+        <i class="fas fa-map"></i> Peta
+      </button>
+    </div>
+  </nav>
 
-            <div id="umkmGrid" class="umkm-grid"></div>
-        </div>
-
-        <!-- Map View -->
-        <div id="mapView" class="view">
-            <div class="map-controls">
-                <button id="locateBtn" class="map-control-btn">
-                    <i class="fas fa-crosshairs"></i> Lokasi Saya
-                </button>
-                <button id="resetMapBtn" class="map-control-btn">
-                    <i class="fas fa-home"></i> Reset Peta
-                </button>
-                <button id="clearRouteBtn" class="map-control-btn" style="display:none;">
-                    <i class="fas fa-times"></i> Hapus Rute
-                </button>
-                <div class="map-legend">
-                    <h4>Legenda:</h4>
-                    <div class="legend-item">
-                        <span class="legend-marker kuliner"></span> Kuliner
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-marker fashion"></span> Fashion
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-marker kerajinan"></span> Kerajinan
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-marker jasa"></span> Jasa
-                    </div>
-                </div>
-            </div>
-            <div id="map"></div>
-        </div>
-
-        
-    </main>
-
-    <!-- UMKM Detail Modal -->
-    <div id="umkmModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div id="modalContent"></div>
-        </div>
+  <main class="container">
+    <div class="filter-section">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Cari UMKM...">
+      </div>
+      <select id="categoryFilter">
+        <option value="">Semua Kategori</option>
+        <option value="kuliner">Kuliner</option>
+        <option value="fashion">Fashion</option>
+        <option value="kerajinan">Kerajinan</option>
+        <option value="jasa">Jasa</option>
+        <option value="pertanian">Pertanian</option>
+        <option value="teknologi">Teknologi</option>
+      </select>
+      <select id="rtFilter">
+        <option value="">Semua RT</option>
+        <option value="01">RT 01</option>
+        <option value="02">RT 02</option>
+        <option value="03">RT 03</option>
+        <option value="04">RT 04</option>
+        <option value="05">RT 05</option>
+        <option value="06">RT 06</option>
+        <option value="07">RT 07</option>
+        <option value="08">RT 08</option>
+      </select>
+      <select id="rwFilter">
+        <option value="">Semua RW</option>
+        <option value="01">RW 01</option>
+        <option value="02">RW 02</option>
+        <option value="03">RW 03</option>
+        <option value="04">RW 04</option>
+        <option value="05">RW 05</option>
+        <option value="06">RW 06</option>
+        <option value="07">RW 07</option>
+        <option value="08">RW 08</option>
+      </select>
     </div>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Katalog UMKM Sarirejo - Semarang Timur</p>
+    <div id="catalogView" class="view active">
+      <div class="stats-cards">
+        <div class="stat-card">
+          <i class="fas fa-store"></i>
+          <div>
+            <h3 id="totalUMKM">0</h3>
+            <p>Total UMKM</p>
+          </div>
         </div>
-    </footer>
+        <div class="stat-card">
+          <i class="fas fa-utensils"></i>
+          <div>
+            <h3 id="kulinerCount">0</h3>
+            <p>Kuliner</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-tshirt"></i>
+          <div>
+            <h3 id="fashionCount">0</h3>
+            <p>Fashion</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-tools"></i>
+          <div>
+            <h3 id="jasaCount">0</h3>
+            <p>Jasa</p>
+          </div>
+        </div>
+      </div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
-    <script src="script.js"></script>
+      <div id="umkmGrid" class="umkm-grid"></div>
+    </div>
+
+    <div id="mapView" class="view">
+      <div class="map-controls">
+        <button id="locateBtn" class="map-control-btn">
+          <i class="fas fa-crosshairs"></i> Lokasi Saya
+        </button>
+        <button id="resetMapBtn" class="map-control-btn">
+          <i class="fas fa-home"></i> Reset Peta
+        </button>
+        <button id="clearRouteBtn" class="map-control-btn" style="display:none;">
+          <i class="fas fa-times"></i> Hapus Rute
+        </button>
+        <div class="map-legend">
+          <h4>Legenda:</h4>
+          <div class="legend-item">
+            <span class="legend-marker kuliner"></span> Kuliner
+          </div>
+          <div class="legend-item">
+            <span class="legend-marker fashion"></span> Fashion
+          </div>
+          <div class="legend-item">
+            <span class="legend-marker kerajinan"></span> Kerajinan
+          </div>
+          <div class="legend-item">
+            <span class="legend-marker jasa"></span> Jasa
+          </div>
+        </div>
+      </div>
+      <div id="map"></div>
+    </div>
+
+
+  </main>
+
+  <div id="umkmModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Katalog UMKM Sarirejo - Semarang Timur</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+  <script src="script.js"></script>
 </body>
+
 </html>
