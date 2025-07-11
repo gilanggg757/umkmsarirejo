@@ -4,289 +4,291 @@ let map;
 let markers = [];
 let userLocation = null;
 let routingControl = null; // Routing control instance
+let userMarker = null; // Marker dedicated for user's live location
+let isWatchingLocation = false; // To track if watchPosition is active
 
 // Sample data for demonstration
 const sampleUMKM = [
     // 15 UMKM Kuliner
     {
         id: 1,
-        nama: "Warung Bu Sari",
-        pemilik: "Sari Wijayanti",
+        nama: "Geprek Nemen Sarirejo",
+        pemilik: "Geprek Nemen",
         kategori: "kuliner",
-        deskripsi: "Warung makan tradisional dengan masakan khas Jawa",
-        rt: "01",
-        rw: "02",
-        alamat: "Jl. Sarirejo No. 15, RT 01/RW 02",
+        deskripsi: "Ayam Geprek dengan sambel yang sangat pedan dan nikmat",
+        rt: "03",
+        rw: "05",
+        alamat: "Jl. Tiber no.9, Sarirejo,Semarangb Timur,Semarang,50124",
         telepon: "081234567890",
-        produk: "Nasi Gudeg, Soto Ayam, Es Dawet",
+        produk: "Nasi Ayam Geprek Jumbo,Nasi Ayam Geprek bakar ",
         jamBuka: "06:00",
-        jamTutup: "21:00",
-        latitude: -6.966667,
-        longitude: 110.416667,
-        foto: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop",
+        jamTutup: "23:00",
+        latitude: -6.98210,
+        longitude: 110.43350,
+        foto: "https://i.pinimg.com/736x/dc/6e/fe/dc6efee4c1db1f0983bac146206f055b.jpg",
         menuPhotos: [
-            "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=200&h=150&fit=crop",
-            "https://images.unsplash.com/photo-1555939594-58d7cb6cca65?w=200&h=150&fit=crop"
+            "https://i.pinimg.com/736x/0c/d4/f1/0cd4f1b2cf29aee6d3e5ca0346107a34.jpg",
+            "https://i.pinimg.com/736x/40/23/49/40234994e616c2042e9a8d2fc2bb19cc.jpg"
         ]
     },
     {
         id: 2,
-        nama: "Bakso Mas Agus",
-        pemilik: "Agus Setiawan",
+        nama: "Nasi Goreng Cinta Sejati",
+        pemilik: "Nasi Goreng Cinta Sejati",
         kategori: "kuliner",
-        deskripsi: "Bakso daging sapi asli dengan kuah kaldu yang gurih",
-        rt: "02",
-        rw: "01",
-        alamat: "Jl. Sarirejo No. 23, RT 02/RW 01",
+        deskripsi: "Nasi Goreng Cinta Sejati",
+        rt: "06",
+        rw: "06",
+        alamat: "Jl. Gendong No. 144,",
         telepon: "081345678901",
-        produk: "Bakso Daging, Bakso Urat, Mie Ayam",
-        jamBuka: "07:00",
-        jamTutup: "22:00",
-        latitude: -6.967200,
-        longitude: 110.417200,
-        foto: "https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=400&h=300&fit=crop",
+        produk: "Nasi goreng,Nasi goreng sosis,Nasi goreng ayam",
+        jamBuka: "00:00",
+        jamTutup: "23:59",
+        latitude: -6.98150,
+        longitude: 110.43420,
+        foto: "https://i.pinimg.com/1200x/f8/47/3f/f8473f75e368eee2c7c8cdbf4b0af969.jpg",
         menuPhotos: [
-            "https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=200&h=150&fit=crop"
+            "https://i.pinimg.com/736x/b4/0a/0d/b40a0db184e034d0b7e900527b3e57ef.jpg"
         ]
     },
     {
         id: 3,
-        nama: "Nasi Pecel Ibu Tini",
-        pemilik: "Tini Rahayu",
+        nama: "Soto Ayam Dargo",
+        pemilik: "Pak Tanto",
         kategori: "kuliner",
-        deskripsi: "Nasi pecel dengan bumbu kacang khas Jawa Timur",
+        deskripsi: "Soto Ayam Dargo",
         rt: "01",
         rw: "01",
-        alamat: "Jl. Sarirejo No. 8, RT 01/RW 01",
-        telepon: "082456789012",
-        produk: "Nasi Pecel, Gado-gado, Ketoprak",
-        jamBuka: "05:30",
+        alamat: "Jl. Dargo No.60",
+        telepon: "082135295881",
+        produk: "Soto Ayam",
+        jamBuka: "05:00",
         jamTutup: "14:00",
-        latitude: -6.966000,
-        longitude: 110.416000,
-        foto: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&h=300&fit=crop",
+        latitude: -6.98090,
+        longitude: 110.43280,
+        foto: "https://i.pinimg.com/736x/60/45/87/6045870dbe22e2ec93ac6905317dc92e.jpg",
         menuPhotos: [
             "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=200&h=150&fit=crop"
         ]
     },
     {
         id: 4,
-        nama: "Es Campur Segar Pak Bambang",
-        pemilik: "Bambang Suryono",
+        nama: "Durian Adek Abang",
+        pemilik: "Durian Adek Abang",
         kategori: "kuliner",
-        deskripsi: "Es campur dan minuman segar untuk menghilangkan dahaga",
+        deskripsi: "Durian yang enak dan lezat",
         rt: "03",
-        rw: "02",
-        alamat: "Jl. Sarirejo No. 56, RT 03/RW 02",
-        telepon: "083567890123",
+        rw: "08",
+        alamat: "Jl. Petelan Utara",
+        telepon: "082134538357",
         produk: "Es Campur, Es Cendol, Es Dawet, Jus Buah",
-        jamBuka: "10:00",
-        jamTutup: "23:00",
-        latitude: -6.968000,
-        longitude: 110.418000,
-        foto: "https://images.unsplash.com/photo-1541544537156-7627a7a4aa1c?w=400&h=300&fit=crop",
+        jamBuka: "24 jam",
+        jamTutup: "24 jam",
+        latitude: -6.98250,
+        longitude: 110.43210,
+        foto: "https://i.pinimg.com/736x/cd/22/fc/cd22fcd1684852133ba360d20d59bbdf.jpg",
         menuPhotos: [
-            "https://images.unsplash.com/photo-1541544537156-7627a7a4aa1c?w=200&h=150&fit=crop"
+            "https://i.pinimg.com/1200x/30/38/22/3038225ec44ffba361c8aae5b00cb7db.jpg"
         ]
     },
     {
         id: 5,
-        nama: "Ayam Goreng Bu Wati",
-        pemilik: "Wati Susanti",
+        nama: "Samiroso Sea Food",
+        pemilik: "Samiroso",
         kategori: "kuliner",
-        deskripsi: "Ayam goreng crispy dengan bumbu rahasia keluarga",
+        deskripsi: "Sea food ikan,kepiting,kerang dengan saus yang khas dan enak",
         rt: "04",
         rw: "01",
-        alamat: "Jl. Sarirejo No. 34, RT 04/RW 01",
-        telepon: "084678901234",
-        produk: "Ayam Goreng, Ayam Bakar, Nasi Rawon",
-        jamBuka: "11:00",
-        jamTutup: "21:30",
-        latitude: -6.969000,
-        longitude: 110.419000,
-        foto: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=400&h=300&fit=crop",
+        alamat: "Jl. RA.Kartini",
+        telepon: "081390990981",
+        produk: "Ikan air tawar air asin,Kepiting,Kerang,Cumi-cumi",
+        jamBuka: "16:00",
+        jamTutup: "23:00",
+        latitude: -6.98300,
+        longitude: 110.43480,
+        foto: "https://i.pinimg.com/736x/b4/86/75/b486756fbbf0d4617cdd37d9a36688a5.jpg",
         menuPhotos: [
-            "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=200&h=150&fit=crop"
+            "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrEeNvfT2aYsawNWwTBlA0RTcmcBIQSLERT-9u7Vtua3j3Kvr8pmo39vxnGCAD7lOxe4fjgkKnwfVbw6mQLboyOd7OVuesS-uqoaI6EqQYsT7Fxw7u7G-Wzxib7NdWdfJ-Gn1cX5g=w140-h140-p-k-no"
         ]
     },
     {
         id: 6,
-        nama: "Kopi Klotok Mas Joko",
-        pemilik: "Joko Widodo",
+        nama: "Wedang Ronde Mahkota",
+        pemilik: "Wedang Ronde Mahkota",
         kategori: "kuliner",
-        deskripsi: "Warung kopi tradisional dengan kopi robusta pilihan",
-        rt: "05",
-        rw: "02",
-        alamat: "Jl. Sarirejo No. 67, RT 05/RW 02",
+        deskripsi: "Wedang Ronde Segerrr",
+        rt: "06",
+        rw: "04",
+        alamat: "Jl. Ligu Tengah No. 1062B",
         telepon: "085789012345",
-        produk: "Kopi Klotok, Kopi Tubruk, Gorengan, Pisang Goreng",
-        jamBuka: "06:00",
-        jamTutup: "22:00",
-        latitude: -6.970000,
-        longitude: 110.420000,
-        foto: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop",
+        produk: "Wedang Ronde",
+        jamBuka: "10:30",
+        jamTutup: "21:00",
+        latitude: -6.98000,
+        longitude: 110.43150,
+        foto: "https://i.pinimg.com/736x/01/41/00/014100b1f6df58cea280ce72f5bd90cd.jpg",
         menuPhotos: [
-            "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=200&h=150&fit=crop"
+            "https://lh3.googleusercontent.com/gps-cs-s/AC9h4noE9goTQlmHFe2f661thbGRPz3RwpFchEh8zbkKJl2-WLssSopRvv_Ljm6NEeZgL7Y05hyYLyUnzeUAl9V8uvNVrR4kP8wF5yrCWC5Vnw8fp6Bp49n9qaAZlCucSfiuK7YP2yAevw=w140-h140-p-k-no"
         ]
     },
     {
         id: 7,
-        nama: "Sate Kambing Pak Umar",
-        pemilik: "Umar Fauzi",
+        nama: "Omah Babi Ninik",
+        pemilik: "Ninik",
         kategori: "kuliner",
-        deskripsi: "Sate kambing muda dengan bumbu kacang yang nikmat",
+        deskripsi: "Olahan B2 yang lezat dan nikmat",
         rt: "02",
         rw: "03",
-        alamat: "Jl. Sarirejo No. 89, RT 02/RW 03",
-        telepon: "086890123456",
-        produk: "Sate Kambing, Gule Kambing, Tongseng",
-        jamBuka: "17:00",
-        jamTutup: "24:00",
-        latitude: -6.967500,
-        longitude: 110.417500,
-        foto: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=400&h=300&fit=crop",
+        alamat: "Jl. Karang Kojo No. 443",
+        telepon: "082288488005",
+        produk: "Nasi campur omah babi Ninik, Babi Carsio,Babi Cabe garam",
+        jamBuka: "10:00",
+        jamTutup: "17:00",
+        latitude: -6.98400,
+        longitude: 110.43390,
+        foto: "https://i.pinimg.com/736x/d5/ab/a5/d5aba5aef1cf0e3c06709a3e848bd6b6.jpg",
         menuPhotos: [
-            "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=200&h=150&fit=crop"
+            "https://lh3.googleusercontent.com/gps-cs-s/AC9h4np27evWVEEqY-QRqu8CmID1DB_J6M9YEgZHFtwcrmpLwVIWSiuEuevp4l5JbVTk7ceJoImYayXBTUkUilBAsD7G7-rieAIoe0yUw5Sia1arb6U1X5BWCw6Bs9i4cn6FI2kuvCtY=w140-h140-p-k-no"
         ]
     },
     {
         id: 8,
-        nama: "Tahu Tek Bu Ningsih",
-        pemilik: "Ningsih Astuti",
+        nama: "Penguin Ice Cream",
+        pemilik: "Toko Es Krim",
         kategori: "kuliner",
-        deskripsi: "Tahu tek dan jajanan pasar tradisional",
+        deskripsi: "Ice Cream Enakkk",
         rt: "01",
         rw: "03",
-        alamat: "Jl. Sarirejo No. 12, RT 01/RW 03",
-        telepon: "087901234567",
-        produk: "Tahu Tek, Kupat Tahu, Lontong Sayur",
-        jamBuka: "06:30",
-        jamTutup: "15:00",
-        latitude: -6.966300,
-        longitude: 110.416300,
-        foto: "https://images.unsplash.com/photo-1563379091329-ec5beaa96c3f?w=400&h=300&fit=crop",
+        alamat: "Jl. Ligu Tengah No. 1085",
+        telepon: "0895384010177",
+        produk: "Ice Cream berbagai rasa",
+        jamBuka: "08:00",
+        jamTutup: "18:00",
+        latitude: -6.98220,
+        longitude: 110.43550,
+        foto: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrmQ6vwxzCyPq_vYnUEdsVPyY5UdI2KSCGY0P7TzeawLHm7L8NEsEk_0rqqnyTUzHhdCDNrk7pNxn6sxcY02NzluED9oQYgg0gAeLdsiMuBt9M_3aC46QcNk1ozSkyyULU9y7v7NA=w215-h280-p-k-no",
         menuPhotos: [
-            "https://images.unsplash.com/photo-1563379091329-ec5beaa96c3f?w=200&h=150&fit=crop"
+            "https://lh3.googleusercontent.com/gps-cs-s/AC9h4np4qhXPZGEoiS1YM8o48bMp52xKgmw7-CzBPDJ_msuxOk0RBdsj8EiPn8zXVMWrN2-TFeSL9BsluBXKt9crCs0yQ8DTkZqSXkGLL54FaaKOOSBXr8v_BTV3ukOojcn8FA68hUx4vQ=w215-h280-p-k-no"
         ]
     },
     {
         id: 9,
-        nama: "Mie Ayam Pangsit Pak Rudi",
-        pemilik: "Rudi Hartono",
+        nama: "Pedass pedass",
+        pemilik: "toko makanan",
         kategori: "kuliner",
-        deskripsi: "Mie ayam dengan pangsit buatan sendiri",
-        rt: "03",
-        rw: "01",
-        alamat: "Jl. Sarirejo No. 45, RT 03/RW 01",
-        telepon: "088012345678",
-        produk: "Mie Ayam, Pangsit Rebus, Bakso Tahu",
-        jamBuka: "08:00",
-        jamTutup: "20:00",
-        latitude: -6.968300,
-        longitude: 110.418300,
-        foto: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=300&fit=crop",
+        deskripsi: "pangsit buatan sendiri",
+        rt: "02",
+        rw: "08",
+        alamat: "Jl. Petelan Utara No. 904e",
+        telepon: "089675897796",
+        produk: "Pangsit Rebus",
+        jamBuka: "09:30",
+        jamTutup: "22:00",
+        latitude: -6.98110,
+        longitude: 110.43080,
+        foto: "https://i.pinimg.com/736x/08/fa/c2/08fac2c47394bd0296e44183a1f1ba49.jpg",
         menuPhotos: [
-            "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=200&h=150&fit=crop"
+            "https://i.pinimg.com/736x/ae/fe/0d/aefe0dee61fdadebe60e40da25a61816.jpg"
         ]
     },
     {
         id: 10,
-        nama: "Martabak Manis Bu Yuni",
-        pemilik: "Yuni Setiowati",
+        nama: "Omah Pawon 88 & Marcello Brownies",
+        pemilik: "Pawon 88",
         kategori: "kuliner",
-        deskripsi: "Martabak manis dan telur dengan berbagai topping",
+        deskripsi: "Brownies",
         rt: "04",
         rw: "03",
-        alamat: "Jl. Sarirejo No. 78, RT 04/RW 03",
-        telepon: "089123456789",
-        produk: "Martabak Manis, Martabak Telur, Terang Bulan",
-        jamBuka: "16:00",
-        jamTutup: "01:00",
-        latitude: -6.969300,
-        longitude: 110.419300,
-        foto: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=300&fit=crop",
+        alamat: "Jl. Gebang Anom No. 61",
+        telepon: "082122987388",
+        produk: "Brownies",
+        jamBuka: "11:00",
+        jamTutup: "08:00",
+        latitude: -6.97950,
+        longitude: 110.43450,
+        foto: "https://i.pinimg.com/736x/20/39/30/2039304eb3922eaf939588bbdccdd874.jpg",
         menuPhotos: [
-            "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=200&h=150&fit=crop"
+            "https://i.pinimg.com/736x/0a/ee/62/0aee62f97500118c47d85d8710cf5cf8.jpg"
         ]
     },
     {
         id: 11,
-        nama: "Rujak Cingur Pak Hadi",
-        pemilik: "Hadi Pranoto",
+        nama: "Warung Makan Bu Tiah",
+        pemilik: "Tiah",
         kategori: "kuliner",
-        deskripsi: "Rujak cingur khas Surabaya dengan bumbu petis",
+        deskripsi: "Masakan Rumah",
         rt: "05",
         rw: "01",
-        alamat: "Jl. Sarirejo No. 23, RT 05/RW 01",
-        telepon: "090234567890",
-        produk: "Rujak Cingur, Rujak Buah, Gado-gado",
-        jamBuka: "07:00",
-        jamTutup: "18:00",
-        latitude: -6.970300,
-        longitude: 110.420300,
-        foto: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop",
+        alamat: "Jl. Gebang Anom No. 77",
+        telepon: "",
+        produk: "Masakan Ayam Goreng,sayur sop,sayur mangut",
+        jamBuka: "12:00",
+        jamTutup: "21:00",
+        latitude: -6.98350,
+        longitude: 110.43100,
+        foto: "https://i.pinimg.com/736x/c6/b7/c3/c6b7c33982e3094e55706806d58a7cab.jpg",
         menuPhotos: [
-            "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=200&h=150&fit=crop"
+            "https://i.pinimg.com/736x/c6/b7/c3/c6b7c33982e3094e55706806d58a7cab.jpg"
         ]
     },
     {
         id: 12,
-        nama: "Bebek Goreng Bu Ani",
-        pemilik: "Ani Ratnasari",
+        nama: "Swike Pak Tubi",
+        pemilik: "Pak Tubi",
         kategori: "kuliner",
-        deskripsi: "Bebek goreng dan bebek bakar dengan sambal khas",
+        deskripsi: "Swike Goreng,Swike Kuah",
         rt: "01",
         rw: "02",
-        alamat: "Jl. Sarirejo No. 56, RT 01/RW 02",
+        alamat: "Jl. Karang Kb.Utara ",
         telepon: "091345678901",
-        produk: "Bebek Goreng, Bebek Bakar, Sambal Ijo",
-        jamBuka: "11:00",
-        jamTutup: "22:00",
-        latitude: -6.966800,
-        longitude: 110.416800,
-        foto: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop",
+        produk: "Swike Goreng,Swike Kuaho",
+        jamBuka: "09:00",
+        jamTutup: "21:00",
+        latitude: -6.98290,
+        longitude: 110.43290,
+        foto: "https://i.pinimg.com/1200x/ab/8f/7d/ab8f7d1faae5cbc298604616d2c7e53e.jpg ",
         menuPhotos: [
-            "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=200&h=150&fit=crop"
+            "https://lh3.googleusercontent.com/p/AF1QipOKXYa40qeiSnV1wIX31pJ5IVbXOfdMcCi4kEnh=w140-h140-p-k-no"
         ]
     },
     {
         id: 13,
-        nama: "Nasi Liwet Bu Endang",
-        pemilik: "Endang Susilowati",
+        nama: "Leker Paimo",
+        pemilik: "Paimo",
         kategori: "kuliner",
-        deskripsi: "Nasi liwet Solo dengan lauk pauk tradisional",
+        deskripsi: "Leker coklat,leker keju",
         rt: "02",
-        rw: "02",
-        alamat: "Jl. Sarirejo No. 34, RT 02/RW 02",
-        telepon: "092456789012",
-        produk: "Nasi Liwet, Opor Ayam, Areh, Krecek",
-        jamBuka: "10:00",
-        jamTutup: "20:00",
-        latitude: -6.967800,
-        longitude: 110.417800,
-        foto: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&h=300&fit=crop",
+        rw: "04",
+        alamat: "Jl. Karang Kojo No.37",
+        telepon: "08156595412",
+        produk: "Leker coklat,leker keju",
+        jamBuka: "09:00",
+        jamTutup: "17:00",
+        latitude: -6.98180,
+        longitude: 110.43180,
+        foto: "https://i.pinimg.com/1200x/3d/31/49/3d3149f137418f1b749342fb33501f9e.jpg",
         menuPhotos: [
-            "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=200&h=150&fit=crop"
+            "https://i.pinimg.com/736x/04/ce/51/04ce51e063c3b511809e39759b8c2046.jpg"
         ]
     },
     {
         id: 14,
-        nama: "Soto Lamongan Pak Eko",
-        pemilik: "Eko Prasetyo",
+        nama: "Kedai Teras Ny.Wiing",
+        pemilik: "Ny.Wiling",
         kategori: "kuliner",
-        deskripsi: "Soto Lamongan dengan koya dan kerupuk udang",
-        rt: "03",
-        rw: "03",
-        alamat: "Jl. Sarirejo No. 67, RT 03/RW 03",
+        deskripsi: "Nasi Ayam Goreng,Galantin,Mendoan",
+        rt: "04",
+        rw: "04",
+        alamat: "Jl. Ligu Tengah No. 1083",
         telepon: "093567890123",
-        produk: "Soto Lamongan, Soto Ayam, Kerupuk Udang",
-        jamBuka: "06:00",
-        jamTutup: "16:00",
-        latitude: -6.968800,
-        longitude: 110.418800,
-        foto: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop",
+        produk: "Nasi Ayam Goreng,Galantin,Mendoan",
+        jamBuka: "11:00",
+        jamTutup: "20:00",
+        latitude: -6.98050,
+        longitude: 110.43520,
+        foto: "https://i.pinimg.com/1200x/ab/fb/ae/abfbaed7a3e24d86f054ac256fe52b19.jpg",
         menuPhotos: [
-            "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=200&h=150&fit=crop"
+            "https://i.pinimg.com/736x/ee/d6/06/eed606cad5f6195b8e4c695874fc4259.jpg"
         ]
     },
     {
@@ -297,211 +299,198 @@ const sampleUMKM = [
         deskripsi: "Cendol dan dawet dengan santan kelapa murni",
         rt: "04",
         rw: "02",
-        alamat: "Jl. Sarirejo No. 89, RT 04/RW 02",
+        alamat: "Jl. Leduwi Utara No. 89",
         telepon: "094678901234",
         produk: "Cendol, Dawet, Es Kelapa Muda, Kolak",
         jamBuka: "09:00",
         jamTutup: "21:00",
-        latitude: -6.969800,
-        longitude: 110.419800,
-        foto: "https://images.unsplash.com/photo-1541544537156-7627a7a4aa1c?w=400&h=300&fit=crop",
+        latitude: -6.98450,
+        longitude: 110.43250,
+        foto: "https://i.pinimg.com/736x/33/c6/3d/33c63db30d1f536519251c4510117472.jpg",
         menuPhotos: [
-            "https://images.unsplash.com/photo-1541544537156-7627a7a4aa1c?w=200&h=150&fit=crop"
+            "https://i.pinimg.com/736x/d8/b5/f7/d8b5f7687880b2761a99d770189267a8.jpg"
         ]
     },
     // 10 UMKM Jasa
     {
         id: 16,
-        nama: "Jahit Pak Budi",
-        pemilik: "Budi Santoso",
+        nama: "Bengkel Tegal Motor",
+        pemilik: "Bengkel Tegar Montor",
         kategori: "jasa",
-        deskripsi: "Jasa jahit dan reparasi pakaian",
-        rt: "02",
-        rw: "01",
-        alamat: "Jl. Sarirejo No. 45, RT 02/RW 01",
-        telepon: "082345678901",
-        produk: "Jahit Baju, Reparasi Pakaian, Bordiran",
+        deskripsi: "Jasa Servis Montor dan reparasi montor",
+        rt: "07",
+        rw: "07",
+        alamat: "Jl. Petelan Tengah No. 843",
+        telepon: "085740550417",
+        produk: "Servis Montor",
         jamBuka: "08:00",
         jamTutup: "17:00",
-        latitude: -6.967667,
-        longitude: 110.417667,
-        foto: "https://images.unsplash.com/photo-1558618666-fcd25ba4cd64?w=400&h=300&fit=crop"
+        latitude: -6.98130,
+        longitude: 110.43230,
+        foto: "https://i.pinimg.com/736x/2b/50/27/2b5027b5acaa186e841b28c3fd1d3da5.jpg"
     },
     {
         id: 17,
-        nama: "Service Motor Pak Andi",
-        pemilik: "Andi Setiawan",
+        nama: "Jantan Jasa Antar Muatan Roda 3",
+        pemilik: "Jantan",
         kategori: "jasa",
-        deskripsi: "Service dan reparasi motor semua jenis",
+        deskripsi: "Jasa Antar kemana saja",
         rt: "01",
         rw: "01",
-        alamat: "Jl. Sarirejo No. 12, RT 01/RW 01",
-        telepon: "081456789012",
-        produk: "Service Motor, Ganti Oli, Tune Up",
-        jamBuka: "07:00",
-        jamTutup: "18:00",
-        latitude: -6.966200,
-        longitude: 110.416200,
-        foto: "https://images.unsplash.com/photo-1486754735734-325b5831c3ad?w=400&h=300&fit=crop"
+        alamat: "Jl. Gendong Saluran No. 1227",
+        telepon: "081227360336",
+        produk: "Jasa Kurir",
+        jamBuka: "06:00",
+        jamTutup: "22:00",
+        latitude: -6.98270,
+        longitude: 110.43380,
+        foto: "https://i.pinimg.com/1200x/1f/d0/03/1fd003afa11df79f2e2ea2a9eb7f4a6d.jpg"
     },
     {
         id: 18,
-        nama: "Salon Cantik Bu Rita",
-        pemilik: "Rita Anggraini",
+        nama: "Aziz Klise",
+        pemilik: "Aziz Klise",
         kategori: "jasa",
-        deskripsi: "Salon kecantikan untuk wanita dan anak-anak",
+        deskripsi: "Toko Percetakan",
         rt: "03",
-        rw: "02",
-        alamat: "Jl. Sarirejo No. 78, RT 03/RW 02",
-        telepon: "082567890123",
-        produk: "Potong Rambut, Creambath, Facial, Manicure",
-        jamBuka: "09:00",
-        jamTutup: "20:00",
-        latitude: -6.968200,
-        longitude: 110.418200,
-        foto: "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&h=300&fit=crop"
+        rw: "06",
+        alamat: "Jl. Gendong Utara No. 668A",
+        telepon: "081315431979",
+        produk: "Percetakan",
+        jamBuka: "08:00",
+        jamTutup: "20:30",
+        latitude: -6.98380,
+        longitude: 110.43170,
+        foto: "https://i.pinimg.com/1200x/f4/0e/14/f40e142a5296876d73804cce89b86c7e.jpg"
     },
     {
         id: 19,
-        nama: "Cuci Motor Bu Sinta",
-        pemilik: "Sinta Dewi",
+        nama: "LA College",
+        pemilik: "Bimble",
         kategori: "jasa",
-        deskripsi: "Jasa cuci motor dan mobil dengan steam",
-        rt: "04",
-        rw: "01",
-        alamat: "Jl. Sarirejo No. 23, RT 04/RW 01",
-        telepon: "083678901234",
-        produk: "Cuci Motor, Cuci Mobil, Steam Cleaning",
-        jamBuka: "06:00",
+        deskripsi: "Pusat Pembelajaran",
+        rt: "01",
+        rw: "08",
+        alamat: "Jl. Petelan Utara No. 904",
+        telepon: "085329596684",
+        produk: "Bimble inovasi terbaru adanya kombinasi dimble offline & online",
+        jamBuka: "16:00",
         jamTutup: "19:00",
-        latitude: -6.969200,
-        longitude: 110.419200,
-        foto: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop"
+        latitude: -6.98020,
+        longitude: 110.43320,
+        foto: "https://i.pinimg.com/736x/a5/a6/80/a5a680c70f04b8e85042912eb25b00fd.jpg"
     },
     {
         id: 20,
-        nama: "Fotocopy Pak Dedi",
-        pemilik: "Dedi Kurniawan",
+        nama: "Servis Tv Pak Di",
+        pemilik: "Di",
         kategori: "jasa",
-        deskripsi: "Jasa fotocopy, print, dan scan dokumen",
-        rt: "05",
-        rw: "03",
-        alamat: "Jl. Sarirejo No. 56, RT 05/RW 03",
-        telepon: "084789012345",
-        produk: "Fotocopy, Print, Scan, Jilid, Laminating",
+        deskripsi: "Servis segala merk Tv",
+        rt: "01",
+        rw: "01",
+        alamat: "Jl. Dargo Dalam No. 52",
+        telepon: "(024) 3561120",
+        produk: "Servis Tv",
         jamBuka: "07:30",
         jamTutup: "21:00",
-        latitude: -6.970200,
-        longitude: 110.420200,
-        foto: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&h=300&fit=crop"
+        latitude: -6.98190,
+        longitude: 110.43490,
+        foto: "https://i.pinimg.com/1200x/2e/18/de/2e18de3d59de41f4161255e2f967d1c2.jpg"
     },
     {
         id: 21,
-        nama: "Tukang Las Pak Agung",
-        pemilik: "Agung Prasetyo",
+        nama: "Disa Salon",
+        pemilik: "Disa",
         kategori: "jasa",
-        deskripsi: "Jasa pengelasan dan reparasi besi",
+        deskripsi: "Jasa Salon",
         rt: "02",
-        rw: "03",
-        alamat: "Jl. Sarirejo No. 34, RT 02/RW 03",
+        rw: "06",
+        alamat: "Jl. Gebang Anom No. 57",
         telepon: "085890123456",
-        produk: "Las Listrik, Las Karbit, Pagar Besi, Teralis",
-        jamBuka: "08:00",
-        jamTutup: "17:00",
-        latitude: -6.967400,
-        longitude: 110.417400,
-        foto: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=400&h=300&fit=crop"
+        produk: "Salon",
+        jamBuka: "09:00",
+        jamTutup: "18:00",
+        latitude: -6.98330,
+        longitude: 110.43330,
+        foto: "https://i.pinimg.com/1200x/4a/9e/33/4a9e33ee287b40f7deceb8e2cccb4ae2.jpg"
     },
     {
         id: 22,
-        nama: "Katering Bu Lestari",
-        pemilik: "Lestari Wulandari",
+        nama: "MRK nailart and eyelashes",
+        pemilik: "MRK nailart and eyelashes",
         kategori: "jasa",
-        deskripsi: "Jasa katering untuk acara dan harian",
+        deskripsi: "jasa MRK nailart and eyelashes",
         rt: "01",
-        rw: "02",
-        alamat: "Jl. Sarirejo No. 67, RT 01/RW 02",
-        telepon: "086901234567",
-        produk: "Katering Harian, Nasi Box, Snack Box",
-        jamBuka: "05:00",
-        jamTutup: "20:00",
-        latitude: -6.966400,
-        longitude: 110.416400,
-        foto: "https://images.unsplash.com/photo-1555244162-803834f70033?w=400&h=300&fit=crop"
+        rw: "01",
+        alamat: "Jl. Gebang Anom No. 83",
+        telepon: "08112678288",
+        produk: "MRK nailart and eyelashes",
+        jamBuka: "09:00",
+        jamTutup: "17:00",
+        latitude: -6.98080,
+        longitude: 110.43410,
+        foto: "https://i.pinimg.com/736x/89/b6/4c/89b64c6d7ace13645150d8ca782c3aa2.jpg"
     },
     {
         id: 23,
-        nama: "Laundry Express Pak Hendro",
-        pemilik: "Hendro Susilo",
+        nama: "Bengkel cat Sutikno",
+        pemilik: "Sutikno",
         kategori: "jasa",
-        deskripsi: "Jasa laundry kiloan dan satuan express",
-        rt: "03",
-        rw: "01",
-        alamat: "Jl. Sarirejo No. 89, RT 03/RW 01",
-        telepon: "087012345678",
-        produk: "Laundry Kiloan, Cuci Setrika, Dry Cleaning",
+        deskripsi: "Jasa Bengkel cat Mobil dll",
+        rt: "04",
+        rw: "04",
+        alamat: "Jl. Karang Kojo Utara",
+        telepon: "081326770201",
+        produk: "repair cat mobil dll",
         jamBuka: "07:00",
         jamTutup: "21:00",
-        latitude: -6.968400,
-        longitude: 110.418400,
-        foto: "https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?w=400&h=300&fit=crop"
+        latitude: -6.98240,
+        longitude: 110.43050,
+        foto: "https://i.pinimg.com/736x/1a/3f/52/1a3f526fe29f3e595278753c68952b84.jpg"
     },
     {
         id: 24,
-        nama: "Tukang Bangunan Pak Wawan",
-        pemilik: "Wawan Setiadi",
+        nama: "Toko Usaha Baru",
+        pemilik: "Toko Usaha Baru",
         kategori: "jasa",
         deskripsi: "Jasa renovasi dan pembangunan rumah",
         rt: "04",
-        rw: "03",
-        alamat: "Jl. Sarirejo No. 12, RT 04/RW 03",
+        rw: "04",
+        alamat: "Jl. Karang Kojo Utara No. 393",
         telepon: "088123456789",
         produk: "Renovasi Rumah, Cat Dinding, Keramik, Plester",
-        jamBuka: "06:00",
+        jamBuka: "08:00",
         jamTutup: "17:00",
-        latitude: -6.969400,
-        longitude: 110.419400,
-        foto: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=400&h=300&fit=crop"
+        latitude: -6.98420,
+        longitude: 110.43460,
+        foto: "https://i.pinimg.com/736x/d1/59/22/d15922640ecd3e4a79eb11ef62bdc428.jpg"
     },
     {
         id: 25,
-        nama: "Service Elektronik Pak Bowo",
-        pemilik: "Bowo Santoso",
+        nama: "Berkah Laundry",
+        pemilik: "Berkah Laundry",
         kategori: "jasa",
-        deskripsi: "Service TV, radio, dan elektronik rumah tangga",
+        deskripsi: "Laundry",
         rt: "05",
-        rw: "02",
-        alamat: "Jl. Sarirejo No. 45, RT 05/RW 02",
-        telepon: "089234567890",
-        produk: "Service TV, Radio, Kulkas, Mesin Cuci",
-        jamBuka: "08:00",
-        jamTutup: "18:00",
-        latitude: -6.970400,
-        longitude: 110.420400,
-        foto: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=300&fit=crop"
+        rw: "04",
+        alamat: "Jl. Ligu Tengah No. 45",
+        telepon: "087728739385",
+        produk: "Laundry",
+        jamBuka: "24 jam",
+        jamTutup: "24 jam",
+        latitude: -6.97980,
+        longitude: 110.43200,
+        foto: "https://i.pinimg.com/1200x/e1/e0/01/e1e00197e22cc000b3102b3b5fd92afb.jpg"
     }
 ];
 
 // Initialize app
 document.addEventListener('DOMContentLoaded', function() {
-    // Load sample data
     umkmData = [...sampleUMKM];
-
-    // Initialize navigation
     initNavigation();
-
-    // Initialize map
     initMap();
-
-    // Initialize filters
     initFilters();
-
-    
-
-    // Initialize modal
     initModal();
-
-    // Load initial data
     displayUMKM(umkmData);
     updateStats();
     updateMapMarkers();
@@ -511,24 +500,15 @@ document.addEventListener('DOMContentLoaded', function() {
 function initNavigation() {
     const navBtns = document.querySelectorAll('.nav-btn');
     const views = document.querySelectorAll('.view');
-
     navBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const targetView = btn.dataset.view;
-
-            // Update active nav button
             navBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-
-            // Update active view
             views.forEach(v => v.classList.remove('active'));
             document.getElementById(`${targetView}View`).classList.add('active');
-
-            // Refresh map if switching to map view
             if (targetView === 'map') {
-                setTimeout(() => {
-                    map.invalidateSize();
-                }, 100);
+                setTimeout(() => map.invalidateSize(), 100);
             }
         });
     });
@@ -536,71 +516,87 @@ function initNavigation() {
 
 // Map initialization
 function initMap() {
-    // Center of Sarirejo, Semarang Timur (approximate coordinates)
-    const sarirejoCenterLat = -6.967;
-    const sarirejoCenterLng = 110.417;
-
-    map = L.map('map').setView([sarirejoCenterLat, sarirejoCenterLng], 15);
-
+    const newCenterLat = -6.981652;
+    const newCenterLng = 110.433190;
+    map = L.map('map').setView([newCenterLat, newCenterLng], 16);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
-
-    // Add Sarirejo boundary marker
-    L.marker([sarirejoCenterLat, sarirejoCenterLng])
+    L.marker([newCenterLat, newCenterLng])
         .addTo(map)
-        .bindPopup('<strong>Kelurahan Sarirejo</strong><br>Kecamatan Semarang Timur')
+        .bindPopup('<strong>Pusat Area UMKM</strong>')
         .openPopup();
-
-    // Map controls
-    const mapControls = `
-        <div class="map-controls">
-            <button id="locateBtn" class="map-control-btn">
-                <i class="fas fa-crosshairs"></i> Lokasi Saya
-            </button>
-            <button id="resetMapBtn" class="map-control-btn">
-                <i class="fas fa-home"></i> Reset Peta
-            </button>
-            <button id="clearRouteBtn" class="map-control-btn" style="display:none;">
-                <i class="fas fa-times"></i> Hapus Rute
-            </button>
-        </div>
-    `;
-
-    const mapContainer = document.getElementById('map');
-    mapContainer.insertAdjacentHTML('beforeend', mapControls);
-    document.getElementById('locateBtn').addEventListener('click', getCurrentLocation);
+    document.getElementById('locateBtn').addEventListener('click', startWatchingLocation);
     document.getElementById('resetMapBtn').addEventListener('click', resetMap);
     document.getElementById('clearRouteBtn').addEventListener('click', clearRoute);
-
 }
 
-function getCurrentLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            position => {
-                const lat = position.coords.latitude;
-                const lng = position.coords.longitude;
+// --- LOCATION & ROUTING FUNCTIONS IMPROVED ---
 
-                userLocation = [lat, lng];
-                map.setView([lat, lng], 16);
-
-                L.marker([lat, lng])
-                    .addTo(map)
-                    .bindPopup('📍 Lokasi Anda')
-                    .openPopup();
-            },
-            error => {
-                alert('Tidak dapat mengakses lokasi Anda. Pastikan GPS aktif dan izinkan akses lokasi.');
-            }
-        );
-    } else {
-        alert('Browser Anda tidak mendukung Geolocation API.');
+function startWatchingLocation() {
+    if (isWatchingLocation) {
+        alert('Pelacakan lokasi sudah aktif.');
+        if (userLocation) map.setView(userLocation, 17);
+        return;
     }
+
+    if (!navigator.geolocation) {
+        alert('Browser Anda tidak mendukung Geolocation API.');
+        return;
+    }
+
+    const options = {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+    };
+
+    alert('Mengaktifkan pelacakan lokasi presisi tinggi...');
+
+    navigator.geolocation.watchPosition(
+        (position) => {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            const newLatLng = L.latLng(lat, lng);
+            userLocation = [lat, lng];
+
+            if (!userMarker) {
+                const blueIcon = L.icon({
+                    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+                    shadowSize: [41, 41]
+                });
+                userMarker = L.marker(newLatLng, { icon: blueIcon }).addTo(map)
+                    .bindPopup('<b>Ini Lokasi Anda</b>')
+                    .openPopup();
+                map.setView(newLatLng, 17);
+            } else {
+                userMarker.setLatLng(newLatLng);
+            }
+
+            if (routingControl) {
+                const waypoints = routingControl.getWaypoints();
+                waypoints[0].latLng = newLatLng;
+                routingControl.setWaypoints(waypoints);
+            }
+
+            isWatchingLocation = true;
+        },
+        (error) => {
+            alert(`ERROR(${error.code}): ${error.message}. Pastikan GPS dan izin lokasi aktif.`);
+            isWatchingLocation = false;
+        },
+        options
+    );
 }
 
 function resetMap() {
-    map.setView([-6.967, 110.417], 15);
+    const newCenterLat = -6.981652;
+    const newCenterLng = 110.433190;
+    map.setView([newCenterLat, newCenterLng], 16);
 }
 
 function clearRoute() {
@@ -612,63 +608,46 @@ function clearRoute() {
 }
 
 function showRoute(destinationLat, destinationLng) {
-    clearRoute(); // Clear existing route if any
-
     if (!userLocation) {
-        // Try to get user location if not available
-        getCurrentLocation();
-        setTimeout(() => {
-            if (userLocation) {
-                createRoute(destinationLat, destinationLng);
-            } else {
-                alert('Aktifkan lokasi anda terlebih dahulu.');
-            }
-        }, 2000);
+        alert('Mohon aktifkan lokasi Anda terlebih dahulu dengan menekan tombol "Lokasi Saya".');
+        startWatchingLocation();
         return;
     }
-
+    clearRoute();
     createRoute(destinationLat, destinationLng);
 }
 
 function createRoute(destinationLat, destinationLng) {
-    // Switch to map view immediately
     document.querySelector('.nav-btn[data-view="map"]').click();
-    
+
     setTimeout(() => {
         routingControl = L.Routing.control({
             waypoints: [
-                L.latLng(userLocation[0], userLocation[1]), // User's location
-                L.latLng(destinationLat, destinationLng)  // UMKM location
+                L.latLng(userLocation[0], userLocation[1]),
+                L.latLng(destinationLat, destinationLng)
             ],
             routeWhileDragging: false,
             showAlternatives: false,
             addWaypoints: false,
             draggableWaypoints: false,
-            createMarker: function() { return null; } // Don't create default markers
+            createMarker: function() { return null; },
+            lineOptions: {
+                styles: [{ color: '#2563eb', opacity: 0.8, weight: 6 }]
+            }
         }).addTo(map);
 
-        // Fit map to show both points
-        const group = new L.featureGroup([
-            L.marker([userLocation[0], userLocation[1]]),
-            L.marker([destinationLat, destinationLng])
-        ]);
-        map.fitBounds(group.getBounds().pad(0.1));
-
-        document.getElementById('clearRouteBtn').style.display = 'block';
+        document.getElementById('clearRouteBtn').style.display = 'flex';
     }, 300);
 }
 
 
 function updateMapMarkers() {
-    // Clear existing markers
     markers.forEach(marker => map.removeLayer(marker));
     markers = [];
-
-    // Add UMKM markers
-    umkmData.forEach(umkm => {
+    const currentlyDisplayed = filterUMKMData();
+    currentlyDisplayed.forEach(umkm => {
         if (umkm.latitude && umkm.longitude) {
             const markerColor = getCategoryColor(umkm.kategori);
-
             const marker = L.circleMarker([umkm.latitude, umkm.longitude], {
                 radius: 8,
                 fillColor: markerColor,
@@ -677,19 +656,14 @@ function updateMapMarkers() {
                 opacity: 1,
                 fillOpacity: 0.8
             }).addTo(map);
-
             let popupContent = `
                 <div class="popup-content">
                     <h4>${umkm.nama}</h4>
-                    <p><strong>Kategori:</strong> ${umkm.kategori}</p>
-                    <p><strong>Pemilik:</strong> ${umkm.pemilik}</p>
-                    <p><strong>Alamat:</strong> ${umkm.alamat}</p>
-                    <p><strong>Telepon:</strong> ${umkm.telepon || 'Tidak tersedia'}</p>
-                    <p><strong>Produk:</strong> ${umkm.produk || 'Tidak tersedia'}</p>
-                    <button onclick="showRoute(${umkm.latitude}, ${umkm.longitude})">Rute</button>
-                </div>
-            `;
-
+                    <p><strong>Kategori:</strong> ${capitalizeFirst(umkm.kategori)}</p>
+                    <button class="map-btn" style="width:100%; margin-top: 5px;" onclick="showRoute(${umkm.latitude}, ${umkm.longitude})">
+                        <i class="fas fa-route"></i> Rute ke Sini
+                    </button>
+                </div>`;
             marker.bindPopup(popupContent);
             markers.push(marker);
         }
@@ -708,77 +682,82 @@ function getCategoryColor(category) {
     return colors[category] || '#999';
 }
 
-// Filters
 function initFilters() {
     const searchInput = document.getElementById('searchInput');
     const categoryFilter = document.getElementById('categoryFilter');
     const rtFilter = document.getElementById('rtFilter');
-
-    searchInput.addEventListener('input', filterUMKM);
-    categoryFilter.addEventListener('change', filterUMKM);
-    rtFilter.addEventListener('change', filterUMKM);
+    const rwFilter = document.getElementById('rwFilter');
+    searchInput.addEventListener('input', applyFilters);
+    categoryFilter.addEventListener('change', applyFilters);
+    rtFilter.addEventListener('change', applyFilters);
+    rwFilter.addEventListener('change', applyFilters);
 }
 
-function filterUMKM() {
+function filterUMKMData() {
     const searchTerm = document.getElementById('searchInput').value.toLowerCase();
     const selectedCategory = document.getElementById('categoryFilter').value;
     const selectedRT = document.getElementById('rtFilter').value;
-
-    let filteredData = umkmData.filter(umkm => {
+    const selectedRW = document.getElementById('rwFilter').value;
+    return umkmData.filter(umkm => {
         const matchesSearch = umkm.nama.toLowerCase().includes(searchTerm) ||
             umkm.pemilik.toLowerCase().includes(searchTerm) ||
-            umkm.produk.toLowerCase().includes(searchTerm) ||
+            (umkm.produk && umkm.produk.toLowerCase().includes(searchTerm)) ||
             umkm.deskripsi.toLowerCase().includes(searchTerm);
-
         const matchesCategory = !selectedCategory || umkm.kategori === selectedCategory;
         const matchesRT = !selectedRT || umkm.rt === selectedRT;
-
-        return matchesSearch && matchesCategory && matchesRT;
+        const matchesRW = !selectedRW || umkm.rw === selectedRW;
+        return matchesSearch && matchesCategory && matchesRT && matchesRW;
     });
-
-    displayUMKM(filteredData);
 }
 
-// Display UMKM
+function applyFilters() {
+    const filteredData = filterUMKMData();
+    displayUMKM(filteredData);
+    updateMapMarkers();
+}
+
 function displayUMKM(data) {
     const grid = document.getElementById('umkmGrid');
-
     if (data.length === 0) {
         grid.innerHTML = '<div class="no-results">Tidak ada UMKM yang ditemukan.</div>';
         return;
     }
-
     grid.innerHTML = data.map(umkm => `
         <div class="umkm-card" onclick="showUMKMDetail(${umkm.id})">
             <div class="umkm-card-image">
-                <img src="${umkm.foto || 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop'}" alt="${umkm.nama}" />
+                <img src="${umkm.foto || 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop'}" alt="${umkm.nama}" loading="lazy" />
                 <div class="category-badge">${capitalizeFirst(umkm.kategori)}</div>
             </div>
             <div class="umkm-card-header">
                 <h3>${umkm.nama}</h3>
-                <p>Pemilik: ${umkm.pemilik}</p>
+                <p>Oleh: ${umkm.pemilik}</p>
             </div>
             <div class="umkm-card-body">
-                <p>${umkm.deskripsi}</p>
-                <div class="info">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>RT ${umkm.rt}/RW ${umkm.rw}</span>
-                </div>
-                <div class="info">
-                    <i class="fas fa-phone"></i>
-                    <span>${umkm.telepon || 'Tidak tersedia'}</span>
-                </div>
-                <div class="info">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span>${umkm.produk || 'Tidak tersedia'}</span>
-                </div>
-                <div class="info">
-                    <i class="fas fa-clock"></i>
-                    <span>${formatJamOperasional(umkm.jamBuka, umkm.jamTutup)}</span>
+                <div class="umkm-card-content">
+                    <p class="description">${umkm.deskripsi}</p>
+                    <div class="umkm-info-list">
+                        <div class="info">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>RT ${umkm.rt}/RW ${umkm.rw}, ${umkm.alamat || 'Sarirejo'}</span>
+                        </div>
+                        <div class="info">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span>${umkm.produk || 'Layanan utama'}</span>
+                        </div>
+                        <div class="info">
+                            <i class="fas fa-clock"></i>
+                            <span>${formatJamOperasional(umkm.jamBuka, umkm.jamTutup)}</span>
+                        </div>
+                        ${umkm.telepon ? `
+                        <div class="info">
+                            <i class="fas fa-phone"></i>
+                            <span>${umkm.telepon}</span>
+                        </div>` : ''}
+                    </div>
                 </div>
                 <div class="card-actions">
                     <button onclick="event.stopPropagation(); showOnMap(${umkm.id})" class="map-btn">
-                        <i class="fas fa-map-marker-alt"></i> Lihat di Peta
+                        <i class="fas fa-map-marker-alt"></i> Lihat Peta
                     </button>
                 </div>
             </div>
@@ -792,18 +771,12 @@ function showOnMap(id) {
         alert('Lokasi UMKM tidak tersedia');
         return;
     }
-
-    // Switch to map view
     document.querySelector('.nav-btn[data-view="map"]').click();
-
-    // Wait for map to be ready then center on UMKM
     setTimeout(() => {
         map.setView([umkm.latitude, umkm.longitude], 18);
-
-        // Find and open the popup for this UMKM
+        const targetLatLng = L.latLng(umkm.latitude, umkm.longitude);
         markers.forEach(marker => {
-            const popupContent = marker.getPopup().getContent();
-            if (popupContent.includes(umkm.nama)) {
+            if (marker.getLatLng().equals(targetLatLng)) {
                 marker.openPopup();
             }
         });
@@ -813,20 +786,18 @@ function showOnMap(id) {
 function showUMKMDetail(id) {
     const umkm = umkmData.find(u => u.id === id);
     if (!umkm) return;
-
     const modalContent = document.getElementById('modalContent');
     let menuPhotosHTML = '';
     if (umkm.kategori === 'kuliner' && umkm.menuPhotos && umkm.menuPhotos.length > 0) {
         menuPhotosHTML = `
             <div class="detail-section">
-                <h3>Menu Photos</h3>
+                <h3>Galeri Menu</h3>
                 <div class="menu-photos-gallery">
-                    ${umkm.menuPhotos.map(photo => `<img src="${photo}" alt="Menu" class="menu-photo">`).join('')}
+                    ${umkm.menuPhotos.map(photo => `<img src="${photo}" alt="Menu" class="menu-photo" loading="lazy">`).join('')}
                 </div>
-            </div>
-        `;
+            </div>`;
     }
-
+    const whatsappLink = umkm.telepon ? `https://wa.me/${formatPhoneNumberForWhatsApp(umkm.telepon)}` : '#';
     modalContent.innerHTML = `
         <div class="modal-image">
             <img src="${umkm.foto || 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop'}" alt="${umkm.nama}" />
@@ -839,51 +810,40 @@ function showUMKMDetail(id) {
                 <p><strong>Kategori:</strong> ${capitalizeFirst(umkm.kategori)}</p>
                 <p><strong>Deskripsi:</strong> ${umkm.deskripsi}</p>
             </div>
-
             <div class="detail-section">
-                <h3>Lokasi</h3>
+                <h3>Lokasi & Kontak</h3>
                 <p><strong>Alamat:</strong> ${umkm.alamat}</p>
-                <p><strong>RT/RW:</strong> ${umkm.rt}/${umkm.rw}</p>
-            </div>
-
-            <div class="detail-section">
-                <h3>Kontak</h3>
                 <p><strong>Telepon:</strong> ${umkm.telepon || 'Tidak tersedia'}</p>
             </div>
-
             <div class="detail-section">
-                <h3>Produk/Layanan</h3>
+                <h3>Produk/Layanan Utama</h3>
                 <p>${umkm.produk || 'Tidak tersedia'}</p>
             </div>
-
             <div class="detail-section">
                 <h3>Jam Operasional</h3>
                 <p>${formatJamOperasional(umkm.jamBuka, umkm.jamTutup)}</p>
             </div>
-
             ${menuPhotosHTML}
-
             <div class="action-buttons">
                 <button onclick="closeModal(); showOnMap(${umkm.id})" class="map-btn">
-                    <i class="fas fa-map-marker-alt"></i> Lihat di Peta
+                    <i class="fas fa-map-marker-alt"></i> Lihat Peta
                 </button>
-                <button onclick="closeModal(); showRoute(${umkm.latitude}, ${umkm.longitude})" class="map-btn">
-                    <i class="fas fa-route"></i> Rute
+                <button onclick="closeModal(); showRoute(${umkm.latitude || 0}, ${umkm.longitude || 0})" class="map-btn route-btn">
+                    <i class="fas fa-route"></i> Tunjuk Arah
                 </button>
+                <a href="${whatsappLink}" target="_blank" class="whatsapp-btn" ${!umkm.telepon ? 'style="display:none;"' : ''}>
+                    <i class="fab fa-whatsapp"></i> Hubungi
+                </a>
             </div>
-        </div>
-    `;
-
+        </div>`;
     document.getElementById('umkmModal').style.display = 'block';
 }
 
-// Statistics
 function updateStats() {
     const total = umkmData.length;
     const kuliner = umkmData.filter(u => u.kategori === 'kuliner').length;
     const fashion = umkmData.filter(u => u.kategori === 'fashion').length;
     const jasa = umkmData.filter(u => u.kategori === 'jasa').length;
-
     document.getElementById('totalUMKM').textContent = total;
     document.getElementById('kulinerCount').textContent = kuliner;
     document.getElementById('fashionCount').textContent = fashion;
@@ -894,24 +854,19 @@ function closeModal() {
     document.getElementById('umkmModal').style.display = 'none';
 }
 
-// Modal
 function initModal() {
     const modal = document.getElementById('umkmModal');
     const closeBtn = document.querySelector('.close');
-
-    closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
-
+    closeBtn.addEventListener('click', closeModal);
     window.addEventListener('click', (e) => {
         if (e.target === modal) {
-            modal.style.display = 'none';
+            closeModal();
         }
     });
 }
 
-// Utility functions
 function capitalizeFirst(str) {
+    if (!str) return '';
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
@@ -920,84 +875,11 @@ function formatJamOperasional(jamBuka, jamTutup) {
     return `${jamBuka} - ${jamTutup}`;
 }
 
-// Add CSS for additional modal styles
-const additionalCSS = `
-.detail-section {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #eee;
+function formatPhoneNumberForWhatsApp(phone) {
+    if (!phone) return '';
+    let cleaned = ('' + phone).replace(/\D/g, '');
+    if (cleaned.startsWith('0')) {
+        cleaned = '62' + cleaned.substring(1);
+    }
+    return cleaned;
 }
-
-.detail-section:last-child {
-    border-bottom: none;
-}
-
-.detail-section h3 {
-    color: #667eea;
-    margin-bottom: 0.5rem;
-}
-
-.detail-section p {
-    margin-bottom: 0.5rem;
-}
-
-.action-buttons {
-    text-align: center;
-    margin-top: 1.5rem;
-}
-
-.whatsapp-btn {
-    display: inline-block;
-    background: #25d366;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 50px;
-    text-decoration: none;
-    transition: background 0.3s ease;
-}
-
-.whatsapp-btn:hover {
-    background: #20b858;
-}
-
-.no-results {
-    text-align: center;
-    padding: 2rem;
-    color: #666;
-    font-size: 1.1rem;
-}
-
-.menu-photos-gallery {
-    display: flex;
-    overflow-x: auto;
-    padding: 0.5rem 0;
-}
-
-.menu-photo {
-    width: 100px;
-    height: 100px;
-    margin-right: 0.5rem;
-    object-fit: cover;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-#addMenuPhoto {
-    background-color: #4CAF50; /* Green */
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-`;
-
-// Inject additional CSS
-const style = document.createElement('style');
-style.textContent = additionalCSS;
-document.head.appendChild(style);
