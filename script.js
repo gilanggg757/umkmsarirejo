@@ -18,13 +18,13 @@ const sampleUMKM = [
         deskripsi: "Ayam Geprek dengan sambel yang sangat pedan dan nikmat",
         rt: "03",
         rw: "05",
-        alamat: "Jl. Tiber no.9, Sarirejo,Semarangb Timur,Semarang,50124",
-        telepon: "081234567890",
+        alamat: "Jl. Tiber no.9, Sarirejo,Semarang Timur,Semarang,50124",
+        telepon: "081234537390",
         produk: "Nasi Ayam Geprek Jumbo,Nasi Ayam Geprek bakar ",
         jamBuka: "06:00",
         jamTutup: "23:00",
-        latitude: -6.98210,
-        longitude: 110.43350,
+        latitude: -6.984804129731262,
+        longitude:  110.43295339058004,
         foto: "https://i.pinimg.com/736x/dc/6e/fe/dc6efee4c1db1f0983bac146206f055b.jpg",
         menuPhotos: [
             "https://i.pinimg.com/736x/0c/d4/f1/0cd4f1b2cf29aee6d3e5ca0346107a34.jpg",
@@ -33,19 +33,19 @@ const sampleUMKM = [
     },
     {
         id: 2,
-        nama: "Nasi Goreng Cinta Sejati",
-        pemilik: "Nasi Goreng Cinta Sejati",
+        nama: "Nasi Goreng Bu Ninik",
+        pemilik: "Bu Ninik",
         kategori: "kuliner",
-        deskripsi: "Nasi Goreng Cinta Sejati",
+        deskripsi: "Nasi Goreng Bu Ninik Yang Enakk dan Lezat",
         rt: "06",
-        rw: "06",
-        alamat: "Jl. Gendong No. 144,",
-        telepon: "081345678901",
+        rw: "02",
+        alamat: "Jl. Leduwi Selatan No. 144,",
+        telepon: "081355618901",
         produk: "Nasi goreng,Nasi goreng sosis,Nasi goreng ayam",
         jamBuka: "00:00",
         jamTutup: "23:59",
-        latitude: -6.98150,
-        longitude: 110.43420,
+        latitude: -6.978943250891293,
+        longitude:  110.43264106729852,
         foto: "https://i.pinimg.com/1200x/f8/47/3f/f8473f75e368eee2c7c8cdbf4b0af969.jpg",
         menuPhotos: [
             "https://i.pinimg.com/736x/b4/0a/0d/b40a0db184e034d0b7e900527b3e57ef.jpg"
@@ -64,8 +64,8 @@ const sampleUMKM = [
         produk: "Soto Ayam",
         jamBuka: "05:00",
         jamTutup: "14:00",
-        latitude: -6.98090,
-        longitude: 110.43280,
+        latitude: -6.975892071352934, 
+        longitude: 110.43322361215793,
         foto: "https://i.pinimg.com/736x/60/45/87/6045870dbe22e2ec93ac6905317dc92e.jpg",
         menuPhotos: [
             "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=200&h=150&fit=crop"
@@ -84,8 +84,8 @@ const sampleUMKM = [
         produk: "Es Campur, Es Cendol, Es Dawet, Jus Buah",
         jamBuka: "24 jam",
         jamTutup: "24 jam",
-        latitude: -6.98250,
-        longitude: 110.43210,
+        latitude: -6.978306707182357, 
+        longitude: 110.43385616652515,
         foto: "https://i.pinimg.com/736x/cd/22/fc/cd22fcd1684852133ba360d20d59bbdf.jpg",
         menuPhotos: [
             "https://i.pinimg.com/1200x/30/38/22/3038225ec44ffba361c8aae5b00cb7db.jpg"
@@ -104,8 +104,8 @@ const sampleUMKM = [
         produk: "Ikan air tawar air asin,Kepiting,Kerang,Cumi-cumi",
         jamBuka: "16:00",
         jamTutup: "23:00",
-        latitude: -6.98300,
-        longitude: 110.43480,
+        latitude: -6.9852232886397925, 
+        longitude: 110.43255454751294,
         foto: "https://i.pinimg.com/736x/b4/86/75/b486756fbbf0d4617cdd37d9a36688a5.jpg",
         menuPhotos: [
             "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrEeNvfT2aYsawNWwTBlA0RTcmcBIQSLERT-9u7Vtua3j3Kvr8pmo39vxnGCAD7lOxe4fjgkKnwfVbw6mQLboyOd7OVuesS-uqoaI6EqQYsT7Fxw7u7G-Wzxib7NdWdfJ-Gn1cX5g=w140-h140-p-k-no"
@@ -124,8 +124,8 @@ const sampleUMKM = [
         produk: "Wedang Ronde",
         jamBuka: "10:30",
         jamTutup: "21:00",
-        latitude: -6.98000,
-        longitude: 110.43150,
+        latitude: -6.982953887019357, 
+        longitude: 110.4339317411032,
         foto: "https://i.pinimg.com/736x/01/41/00/014100b1f6df58cea280ce72f5bd90cd.jpg",
         menuPhotos: [
             "https://lh3.googleusercontent.com/gps-cs-s/AC9h4noE9goTQlmHFe2f661thbGRPz3RwpFchEh8zbkKJl2-WLssSopRvv_Ljm6NEeZgL7Y05hyYLyUnzeUAl9V8uvNVrR4kP8wF5yrCWC5Vnw8fp6Bp49n9qaAZlCucSfiuK7YP2yAevw=w140-h140-p-k-no"
@@ -144,8 +144,8 @@ const sampleUMKM = [
         produk: "Nasi campur omah babi Ninik, Babi Carsio,Babi Cabe garam",
         jamBuka: "10:00",
         jamTutup: "17:00",
-        latitude: -6.98400,
-        longitude: 110.43390,
+        latitude: -6.981405682002962,
+        longitude: 110.43267988120432,
         foto: "https://i.pinimg.com/736x/d5/ab/a5/d5aba5aef1cf0e3c06709a3e848bd6b6.jpg",
         menuPhotos: [
             "https://lh3.googleusercontent.com/gps-cs-s/AC9h4np27evWVEEqY-QRqu8CmID1DB_J6M9YEgZHFtwcrmpLwVIWSiuEuevp4l5JbVTk7ceJoImYayXBTUkUilBAsD7G7-rieAIoe0yUw5Sia1arb6U1X5BWCw6Bs9i4cn6FI2kuvCtY=w140-h140-p-k-no"
@@ -164,8 +164,8 @@ const sampleUMKM = [
         produk: "Ice Cream berbagai rasa",
         jamBuka: "08:00",
         jamTutup: "18:00",
-        latitude: -6.98220,
-        longitude: 110.43550,
+        latitude: -6.983033053771253,
+        longitude:  110.43339907918535,
         foto: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrmQ6vwxzCyPq_vYnUEdsVPyY5UdI2KSCGY0P7TzeawLHm7L8NEsEk_0rqqnyTUzHhdCDNrk7pNxn6sxcY02NzluED9oQYgg0gAeLdsiMuBt9M_3aC46QcNk1ozSkyyULU9y7v7NA=w215-h280-p-k-no",
         menuPhotos: [
             "https://lh3.googleusercontent.com/gps-cs-s/AC9h4np4qhXPZGEoiS1YM8o48bMp52xKgmw7-CzBPDJ_msuxOk0RBdsj8EiPn8zXVMWrN2-TFeSL9BsluBXKt9crCs0yQ8DTkZqSXkGLL54FaaKOOSBXr8v_BTV3ukOojcn8FA68hUx4vQ=w215-h280-p-k-no"
@@ -184,8 +184,8 @@ const sampleUMKM = [
         produk: "Pangsit Rebus",
         jamBuka: "09:30",
         jamTutup: "22:00",
-        latitude: -6.98110,
-        longitude: 110.43080,
+        latitude: -6.9786099888146875, 
+        longitude: 110.43347595151536,
         foto: "https://i.pinimg.com/736x/08/fa/c2/08fac2c47394bd0296e44183a1f1ba49.jpg",
         menuPhotos: [
             "https://i.pinimg.com/736x/ae/fe/0d/aefe0dee61fdadebe60e40da25a61816.jpg"
@@ -204,8 +204,8 @@ const sampleUMKM = [
         produk: "Brownies",
         jamBuka: "11:00",
         jamTutup: "08:00",
-        latitude: -6.97950,
-        longitude: 110.43450,
+        latitude: -6.976565806312878, 
+        longitude: 110.43325919721192,
         foto: "https://i.pinimg.com/736x/20/39/30/2039304eb3922eaf939588bbdccdd874.jpg",
         menuPhotos: [
             "https://i.pinimg.com/736x/0a/ee/62/0aee62f97500118c47d85d8710cf5cf8.jpg"
@@ -244,8 +244,8 @@ const sampleUMKM = [
         produk: "Swike Goreng,Swike Kuaho",
         jamBuka: "09:00",
         jamTutup: "21:00",
-        latitude: -6.98290,
-        longitude: 110.43290,
+        latitude: -6.979407102382801, 
+        longitude: 110.43290301510612,
         foto: "https://i.pinimg.com/1200x/ab/8f/7d/ab8f7d1faae5cbc298604616d2c7e53e.jpg ",
         menuPhotos: [
             "https://lh3.googleusercontent.com/p/AF1QipOKXYa40qeiSnV1wIX31pJ5IVbXOfdMcCi4kEnh=w140-h140-p-k-no"
@@ -264,8 +264,8 @@ const sampleUMKM = [
         produk: "Leker coklat,leker keju",
         jamBuka: "09:00",
         jamTutup: "17:00",
-        latitude: -6.98180,
-        longitude: 110.43180,
+        latitude: -6.982081452214873, 
+        longitude: 110.42916401695828,
         foto: "https://i.pinimg.com/1200x/3d/31/49/3d3149f137418f1b749342fb33501f9e.jpg",
         menuPhotos: [
             "https://i.pinimg.com/736x/04/ce/51/04ce51e063c3b511809e39759b8c2046.jpg"
@@ -284,8 +284,8 @@ const sampleUMKM = [
         produk: "Nasi Ayam Goreng,Galantin,Mendoan",
         jamBuka: "11:00",
         jamTutup: "20:00",
-        latitude: -6.98050,
-        longitude: 110.43520,
+        latitude: -6.982857376613472,
+        longitude: 110.43365957325264,
         foto: "https://i.pinimg.com/1200x/ab/fb/ae/abfbaed7a3e24d86f054ac256fe52b19.jpg",
         menuPhotos: [
             "https://i.pinimg.com/736x/ee/d6/06/eed606cad5f6195b8e4c695874fc4259.jpg"
@@ -304,8 +304,8 @@ const sampleUMKM = [
         produk: "Cendol, Dawet, Es Kelapa Muda, Kolak",
         jamBuka: "09:00",
         jamTutup: "21:00",
-        latitude: -6.98450,
-        longitude: 110.43250,
+        latitude: -6.9788989626230205, 
+        longitude: 110.43200602913592,
         foto: "https://i.pinimg.com/736x/33/c6/3d/33c63db30d1f536519251c4510117472.jpg",
         menuPhotos: [
             "https://i.pinimg.com/736x/d8/b5/f7/d8b5f7687880b2761a99d770189267a8.jpg"
@@ -325,7 +325,7 @@ const sampleUMKM = [
         produk: "Servis Montor",
         jamBuka: "08:00",
         jamTutup: "17:00",
-        latitude: -6.98130,
+        latitude: -6.920012413296986, 
         longitude: 110.43230,
         foto: "https://i.pinimg.com/736x/2b/50/27/2b5027b5acaa186e841b28c3fd1d3da5.jpg"
     },
@@ -342,8 +342,8 @@ const sampleUMKM = [
         produk: "Jasa Kurir",
         jamBuka: "06:00",
         jamTutup: "22:00",
-        latitude: -6.98270,
-        longitude: 110.43380,
+        latitude: -6.983979711568649, 
+        longitude: 110.4335008358384,
         foto: "https://i.pinimg.com/1200x/1f/d0/03/1fd003afa11df79f2e2ea2a9eb7f4a6d.jpg"
     },
     {
@@ -359,8 +359,8 @@ const sampleUMKM = [
         produk: "Percetakan",
         jamBuka: "08:00",
         jamTutup: "20:30",
-        latitude: -6.98380,
-        longitude: 110.43170,
+        latitude: -6.98170240743236, 
+        longitude: 110.43353566652512,
         foto: "https://i.pinimg.com/1200x/f4/0e/14/f40e142a5296876d73804cce89b86c7e.jpg"
     },
     {
@@ -376,8 +376,8 @@ const sampleUMKM = [
         produk: "Bimble inovasi terbaru adanya kombinasi dimble offline & online",
         jamBuka: "16:00",
         jamTutup: "19:00",
-        latitude: -6.98020,
-        longitude: 110.43320,
+        latitude: -6.9786023112525335, 
+        longitude: 110.43379481070431,
         foto: "https://i.pinimg.com/736x/a5/a6/80/a5a680c70f04b8e85042912eb25b00fd.jpg"
     },
     {
@@ -393,8 +393,8 @@ const sampleUMKM = [
         produk: "Servis Tv",
         jamBuka: "07:30",
         jamTutup: "21:00",
-        latitude: -6.98190,
-        longitude: 110.43490,
+        latitude: -6.975750903555167, 
+        longitude: 110.43288789536076,
         foto: "https://i.pinimg.com/1200x/2e/18/de/2e18de3d59de41f4161255e2f967d1c2.jpg"
     },
     {
@@ -410,8 +410,8 @@ const sampleUMKM = [
         produk: "Salon",
         jamBuka: "09:00",
         jamTutup: "18:00",
-        latitude: -6.98330,
-        longitude: 110.43330,
+        latitude: -6.976458587064341, 
+        longitude: 110.43307432466634,
         foto: "https://i.pinimg.com/1200x/4a/9e/33/4a9e33ee287b40f7deceb8e2cccb4ae2.jpg"
     },
     {
@@ -427,8 +427,8 @@ const sampleUMKM = [
         produk: "MRK nailart and eyelashes",
         jamBuka: "09:00",
         jamTutup: "17:00",
-        latitude: -6.98080,
-        longitude: 110.43410,
+        latitude: -6.976441707459083, 
+        longitude: 110.43335530885341,
         foto: "https://i.pinimg.com/736x/89/b6/4c/89b64c6d7ace13645150d8ca782c3aa2.jpg"
     },
     {
@@ -444,8 +444,8 @@ const sampleUMKM = [
         produk: "repair cat mobil dll",
         jamBuka: "07:00",
         jamTutup: "21:00",
-        latitude: -6.98240,
-        longitude: 110.43050,
+        latitude: -6.982672155577574, 
+        longitude: 110.43183372923848,
         foto: "https://i.pinimg.com/736x/1a/3f/52/1a3f526fe29f3e595278753c68952b84.jpg"
     },
     {
@@ -461,8 +461,8 @@ const sampleUMKM = [
         produk: "Renovasi Rumah, Cat Dinding, Keramik, Plester",
         jamBuka: "08:00",
         jamTutup: "17:00",
-        latitude: -6.98420,
-        longitude: 110.43460,
+        latitude: -6.9812345033121215, 
+        longitude: 110.43215559431387,
         foto: "https://i.pinimg.com/736x/d1/59/22/d15922640ecd3e4a79eb11ef62bdc428.jpg"
     },
     {
@@ -478,8 +478,8 @@ const sampleUMKM = [
         produk: "Laundry",
         jamBuka: "24 jam",
         jamTutup: "24 jam",
-        latitude: -6.97980,
-        longitude: 110.43200,
+        latitude: -6.982128924336124, 
+        longitude: 110.43225208464636,
         foto: "https://i.pinimg.com/1200x/e1/e0/01/e1e00197e22cc000b3102b3b5fd92afb.jpg"
     }
 ];
